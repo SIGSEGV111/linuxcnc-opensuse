@@ -1,6 +1,9 @@
-#!/bin/bash -eux
+#!/bin/bash -eu
+source "/opt/amp-bash-commons//shell-util.sh"
 my_path="$(dirname "$(readlink -f "$0")")"
-"$my_path/run.sh" /bin/bash -c "
+parseCommandlineArguments "a:arch=string" -- "$@"
+"$my_path/run.sh" --arch="$__arch" -- /bin/bash -c "
+	set -eux
 	cd ../src
 	./autogen.sh
 	./configure --disable-userspace-pci --enable-non-distributable=yes
