@@ -285,7 +285,7 @@ if test "$RTS" = uspace || test -z "$RTS" -a "$RTAI_CONFIG" = "none" ; then
 
   if test "$BUILD_UDEV" = "yes"; then
     AC_MSG_CHECKING([for libudev])
-    if pkg-config libudev >/dev/null 2>&1; then
+    if pkg-config libudev1 >/dev/null 2>&1; then
         LIBUDEV_VER=`pkg-config udev --modversion`
         AC_MSG_RESULT(yes - version [$LIBUDEV_VER])
         LIBUDEV_CFLAGS=`pkg-config libudev --cflags`
@@ -422,6 +422,7 @@ AC_SUBST([HIDRAW_H_USABLE])
 # Check for rpc/rpc.h
 #
 
+LIBS="$LIBS -ltirpc";
 AC_MSG_CHECKING([for usability of rpc/rpc.h])
 AC_LINK_IFELSE([AC_LANG_PROGRAM([[
 #include <rpc/rpc.h>
@@ -433,7 +434,7 @@ get_myaddress(foo);
     ],[
         AC_MSG_RESULT(no)
         AC_MSG_ERROR([Unable to use rpc.h])
-    
+
 ])
 
 #
